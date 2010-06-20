@@ -1,0 +1,50 @@
+= machinist_callbacks
+
+Some record construction rules cannot be expressed with a {machinist}[http://github.com/notahat/machinist] blueprint, for instance:
+
+* Creating a record with a has_many association already filled in.
+* Creating a record with interdependencies between associated object, such as having to belong to the same container.
+* Needing to process a {delayed_job}[http://github.com/tobi/delayed_job] queue after record construction.
+
+This gem provides <tt>before_make</tt> and <tt>after_make</tt> callbacks for machinist blueprints,
+enabling more freedom in your construction rules.
+
+== Example
+
+    Movie.blueprint do
+      title
+      year 2001
+      before_make do
+        self.producer = Producer.make(:name => director.name)
+      end
+    end
+
+    Director.blueprint do
+      name
+      after_make do
+        movies << Movie.make
+      end
+    end
+
+== Does it work with make_unsaved?
+
+Yes. Machinist is built in a way that every <tt>make</tt> in your callback implicitely becomes a <tt>make_unsaved</tt>
+when an object graph is created with <tt>make_unsaved</tt>. Just do not <tt>save</tt> records manually in your callbacks
+because that would be crazy.
+
+== Installation
+
+Install the gem:
+    sudo gem install machinist_callbacks
+
+Require the gem after requiring machinist in your <tt>environment.rb</tt>:
+    config.gem 'machinist'
+    config.gem 'machinist_callbacks'
+
+=== Credits
+
+Henning Koch
+
+{gem-session.com}[http://gem-session.com/]
+
+{www.makandra.de}[http://www.makandra.de/]
