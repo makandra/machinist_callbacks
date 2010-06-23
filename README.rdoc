@@ -32,7 +32,7 @@ Yes. Machinist is built in a way that every <tt>make</tt> in your callback impli
 when an object graph is created with <tt>make_unsaved</tt>.
 
 
-== Installation and setup
+== Installation
 
 You can install the gem with
     sudo gem install machinist_callbacks
