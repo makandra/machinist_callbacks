@@ -31,14 +31,23 @@ enabling more freedom in your construction rules.
 Yes. Machinist is built in a way that every <tt>make</tt> in your callback implicitely becomes a <tt>make_unsaved</tt>
 when an object graph is created with <tt>make_unsaved</tt>.
 
-== Installation
 
-Install the gem:
+== Installation and setup
+
+You can install the gem with
     sudo gem install machinist_callbacks
 
-Require the gem after requiring machinist in your <tt>environment.rb</tt>:
-    config.gem 'machinist'
+In Rails 2, add the following to your <tt>environment.rb</tt>:
     config.gem 'machinist_callbacks'
+
+In Rails 3, add the following to your <tt>Gemfile</tt>:
+    gem 'machinist_callbacks'
+
+
+== Rails 3 compatibility
+
+We cannot guarantee Rails 3 compatibility at this point, but we will upgrade the gem when Rails 3 is released.
+
 
 === Credits
 

@@ -30,6 +30,7 @@ begin
     gemspec.homepage = "http://github.com/makandra/machinist_callbacks"
     gemspec.description = "Callback hooks for machinist blueprints"
     gemspec.authors = ["Henning Koch"]
+    gemspec.add_dependency 'machinist'
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler"
