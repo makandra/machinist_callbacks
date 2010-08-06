@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{machinist_callbacks}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Henning Koch"]
-  s.date = %q{2010-07-22}
+  s.date = %q{2010-08-06}
   s.description = %q{Callback hooks for machinist blueprints}
   s.email = %q{github@makandra.de}
   s.extra_rdoc_files = [
