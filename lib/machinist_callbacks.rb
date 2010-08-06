@@ -35,7 +35,7 @@ end
 
 makers = []
 makers << ActiveRecord::Associations::HasManyAssociation
-makers << ActiveRecord::Base.send(ActiveRecord::Base.respond_to?(:metaclass) ? :metaclass : :singleton_class)
+makers << ActiveRecord::Base.send(ActiveRecord::Base.respond_to?(:singleton_class) ? :singleton_class : :metaclass)
 
 makers.each do |maker|
   maker.send :define_method, :make_with_after_make do |*args|
