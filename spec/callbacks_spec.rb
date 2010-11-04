@@ -109,5 +109,35 @@ describe 'machinist blueprints' do
 
   end
 
+  %w[before_make after_make].each do |before_or_after_make|
+
+    describe "multiple #{before_or_after_make}s" do
+
+      before :each do
+
+        Movie.blueprint do
+          title "title"
+          year 1980
+          send(before_or_after_make) do
+            self.title = "The Good"
+          end
+          send(before_or_after_make) do
+            self.title << ", the Bad"
+          end
+          send(before_or_after_make) do
+            self.title << " and the Ugly"
+          end
+        end
+
+      end
+
+      it 'should all be run' do
+        movie = Movie.make
+        movie.title.should == 'The Good, the Bad and the Ugly'
+      end
+    end
+
+  end
+
 end
 

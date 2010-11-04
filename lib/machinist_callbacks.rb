@@ -8,18 +8,18 @@ module Machinist
     attr_reader :before_make_callback, :after_make_callback
     
     def before_make(&callback)
-      object.instance_variable_set(:@before_make_callback, callback)
+      append_callback(:before, callback)
     end
 
     def after_make(&callback)
-      object.instance_variable_set(:@after_make_callback, callback)
+      append_callback(:after, callback)
     end
 
     class << self
 
       def run_with_before_make(*args)
         lathe = run_without_before_make(*args)
-        if callback = lathe.object.instance_variable_get(:@before_make_callback)
+        (lathe.object.instance_variable_get(:@before_make_callbacks) || []).each do |callback|
           lathe.object.instance_eval(&callback)
         end
         lathe
@@ -27,6 +27,15 @@ module Machinist
 
       alias_method_chain :run, :before_make
 
+    end
+
+    private
+
+    def append_callback(type, callback)
+      variable = "@#{type}_make_callbacks"
+      chain = object.instance_variable_get(variable) || []
+      chain << callback
+      object.instance_variable_set(variable, chain)
     end
 
   end
@@ -40,7 +49,7 @@ makers << ActiveRecord::Base.send(ActiveRecord::Base.respond_to?(:singleton_clas
 makers.each do |maker|
   maker.send :define_method, :make_with_after_make do |*args|
     object = make_without_after_make(*args)
-    if callback = object.instance_variable_get(:@after_make_callback)
+    (object.instance_variable_get(:@after_make_callbacks) || []).each do |callback|
       object.instance_eval(&callback)
     end
     object
